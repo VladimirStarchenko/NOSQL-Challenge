@@ -41,10 +41,12 @@ const thoughtController = {
   //create a new thought
   newThought({ params, body }, res) {
     console.log(body);
+    // console.log(_id);
+    console.log(params);
     Thought.create(body)
       .then(({ _id }) => {
         return User.findOneAndUpdate(
-          { _id: params.id },
+          { _id: params.userId },
           { $push: { thoughts: _id } },
           { new: true }
         );
@@ -54,14 +56,14 @@ const thoughtController = {
           res.status(404).json({ message: "No user found with this id" });
           return;
         }
-        res.json(dbPizzaData);
+        res.json(dbThoughtData);
       })
       .catch((err) => res.json(err));
   },
 
   // update a thought by its id (need help with this )
   updateThought({ params, body }, res) {
-    Thought.findOneAndUpdate({ _id: params.id }, body)
+    Thought.findOneAndUpdate({ _id: params.thoughtId }, body)
       .then((deletedthought) => {
         if (!deletedthought) {
           return res.status(404).json({ message: "No thought with this id!" });
@@ -118,7 +120,7 @@ const thoughtController = {
       { $pull: { reactions: { reactionId: params.reactionId } } },
       { new: true }
     )
-      .then((dbThoughtData) => res.json(dbThoughtData))
+      .then((dbReactionData) => res.json(dbReactionData))
       .catch((err) => res.json(err));
   },
 };
