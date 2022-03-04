@@ -11,9 +11,9 @@ const {
 
 // api/thoughts/<userId>
 router.route("/:userId").get(getAllThoughts).post(newThought);
-// api/thoughts/<userId>/<thoughtId>
+// api/thoughts/<thoughtId>/<userId>
 router
-  .route("/:userId/:thoughtId")
+  .route("/:thoughtId/users/:userId")
   .get(getThoughtById)
   .put(updateThought)
   .delete(removeThought);
